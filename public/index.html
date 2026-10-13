@@ -90,15 +90,16 @@ h2.display { font-size: clamp(44px, 6vw, 80px); line-height: 0.95; }
 .hero-text { padding-bottom: 112px; display: flex; flex-direction: column; gap: 36px; }
 .hero h1 { font-size: clamp(52px, 6.6vw, 104px); line-height: 0.9; letter-spacing: -0.02em; }
 .hero-lead { max-width: 32em; font-size: 21px; }
-/* Fotka (780×923) končí spodní hranou na okraji fialového bloku, takže vystupuje přímo ze žlutého. */
+/* Fotka (482×420) je oříznutá těsně nad bílým obrysem, aby vystupovala přímo ze žlutého bloku. */
 .hero-figure {
-  position: relative; margin: 0; justify-self: end; width: 100%; max-width: 460px;
+  position: relative; margin: 0; justify-self: end; width: 100%; max-width: 480px;
   container-type: inline-size;
 }
 .hero-figure img { display: block; width: 100%; height: auto; }
-/* Tlačítka leží přes spodní část trička; jejich velikost se odvozuje od šířky fotky (cqw). */
+/* Tlačítka začínají na 336 px z 420 (80 %) – překrývají spodek pěsti, ukazováček zůstává nad nimi.
+   Výška tlačítek se odvozuje od šířky fotky (cqw). */
 .hero-figure .btns {
-  position: absolute; left: 0; right: 0; bottom: 8%;
+  position: absolute; left: 0; right: 0; top: 80%;
   flex-wrap: nowrap; justify-content: center; gap: 2.2cqw; padding: 0 1.5cqw;
 }
 .hero-figure .btn {
@@ -235,7 +236,7 @@ h2.display { font-size: clamp(44px, 6vw, 80px); line-height: 0.95; }
       <p class="hero-lead">Přes den marketing a AI, večer texty a aplikace, o víkendu kopce a výlety s dětmi. Tady je všechno pohromadě – to, co pro vás umím udělat, i to, co pořád roste.</p>
     </div>
     <figure class="hero-figure">
-      <img src="img/karel.webp" alt="Karel Pospíšilík" width="780" height="923">
+      <img src="img/karel.png" alt="Karel Pospíšilík" width="482" height="420">
       <div class="btns">
         <a href="#kontakt" class="btn btn-yellow">Domluvit se</a>
         <a href="#zarubne" class="btn btn-outline-yellow">Co všechno dělám</a>
