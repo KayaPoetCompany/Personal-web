@@ -206,6 +206,8 @@ h2.display { font-size: clamp(44px, 6vw, 80px); line-height: 0.95; }
   margin: 0; font-family: var(--hand); font-weight: 700; font-size: 30px; line-height: 1.2; color: var(--purple);
 }
 .form-thanks:empty { display: none; }
+.form-actions .btn:disabled { opacity: .6; cursor: wait; transform: none; }
+.hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 @media (max-width: 600px) {
   .contact-form { grid-template-columns: 1fr; }
 }
@@ -371,7 +373,7 @@ h2.display { font-size: clamp(44px, 6vw, 80px); line-height: 0.95; }
     <a href="https://www.linkedin.com/" class="btn btn-outline-purple" target="_blank" rel="noopener">Napsat na LinkedIn</a>
   </div>
 
-  <!-- TODO: formulář zatím zprávy nikam neodesílá – je potřeba napojit službu (např. Formspree / Web3Forms) -->
+  <!-- Zprávy jdou na webhook v Make (účet kayapoetcompany) → Google Sheets + upozornění do Gmailu. -->
   <div class="contact-body">
   <form class="contact-form" id="contact-form" novalidate>
     <p class="form-note">* povinné</p>
@@ -394,6 +396,11 @@ h2.display { font-size: clamp(44px, 6vw, 80px); line-height: 0.95; }
       <label for="f-zprava">Zpráva <span>*</span></label>
       <textarea id="f-zprava" name="zprava" required aria-describedby="e-zprava"></textarea>
       <span class="field-error" id="e-zprava"></span>
+    </div>
+    <!-- Past na roboty: člověk pole nevidí, robot ho vyplní a scénář v Make zprávu zahodí. -->
+    <div class="hp" aria-hidden="true">
+      <label for="f-web">Nevyplňujte</label>
+      <input id="f-web" name="web" type="text" tabindex="-1" autocomplete="off">
     </div>
     <div class="form-actions">
       <button type="submit" class="btn btn-purple">Odeslat</button>
@@ -438,7 +445,11 @@ h2.display { font-size: clamp(44px, 6vw, 80px); line-height: 0.95; }
     return !msg;
   }
 
-  form.querySelectorAll('input, textarea').forEach(function (el) {
+  var ENDPOINT = 'https://hook.eu1.make.com/668s2lz1t3gn6sgamw2nuja8g1qppcql';
+  var button = form.querySelector('button[type="submit"]');
+  var fields = form.querySelectorAll('.field input, .field textarea');
+
+  fields.forEach(function (el) {
     el.addEventListener('input', function () {
       if (el.getAttribute('aria-invalid') === 'true') check(el);
     });
@@ -446,13 +457,30 @@ h2.display { font-size: clamp(44px, 6vw, 80px); line-height: 0.95; }
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var fields = form.querySelectorAll('input, textarea');
     var firstBad = null;
     fields.forEach(function (el) { if (!check(el) && !firstBad) firstBad = el; });
     if (firstBad) { thanks.textContent = ''; firstBad.focus(); return; }
-    form.reset();
-    fields.forEach(function (el) { el.removeAttribute('aria-invalid'); });
-    thanks.textContent = 'Díky za zprávu. Brzy se ozvu.';
+
+    // Jednoduchý požadavek (form-urlencoded) – prohlížeč nemusí posílat CORS preflight.
+    var data = new URLSearchParams(new FormData(form));
+    button.disabled = true;
+    button.textContent = 'Odesílám…';
+    thanks.textContent = '';
+
+    fetch(ENDPOINT, { method: 'POST', body: data })
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        form.reset();
+        fields.forEach(function (el) { el.removeAttribute('aria-invalid'); });
+        thanks.textContent = 'Díky za zprávu. Brzy se ozvu.';
+      })
+      .catch(function () {
+        thanks.textContent = 'Zprávu se nepodařilo odeslat. Zkuste to prosím znovu, nebo napište na kayapoetcompany@gmail.com.';
+      })
+      .then(function () {
+        button.disabled = false;
+        button.textContent = 'Odeslat';
+      });
   });
 })();
 </script>
