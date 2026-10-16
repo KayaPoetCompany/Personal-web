@@ -91,13 +91,13 @@ h2.display { font-size: clamp(44px, 6vw, 80px); line-height: 0.95; }
 .hero-text { padding-bottom: 112px; display: flex; flex-direction: column; gap: 36px; }
 .hero h1 { font-size: clamp(52px, 6.6vw, 104px); line-height: 0.9; letter-spacing: -0.02em; }
 .hero-lead { max-width: 32em; font-size: 21px; }
-/* Fotka (482×420) je oříznutá těsně nad bílým obrysem, aby vystupovala přímo ze žlutého bloku. */
+/* Fotka (960×1014) je dole useknutá bez bílého obrysu, aby vystupovala přímo ze žlutého bloku. */
 .hero-figure {
   position: relative; margin: 0; justify-self: end; width: 100%; max-width: 480px;
   container-type: inline-size;
 }
 .hero-figure img { display: block; width: 100%; height: auto; }
-/* Tlačítka začínají na 336 px z 420 (80 %) – překrývají spodek pěsti, ukazováček zůstává nad nimi.
+/* Tlačítka začínají na 80 % výšky fotky – leží na tričku pod knoflíky.
    Výška tlačítek se odvozuje od šířky fotky (cqw). */
 .hero-figure .btns {
   position: absolute; left: 0; right: 0; top: 80%;
@@ -164,19 +164,15 @@ h2.display { font-size: clamp(44px, 6vw, 80px); line-height: 0.95; }
 /* Kontakt */
 .contact { padding-top: 104px; display: flex; flex-direction: column; gap: 28px; }
 
-/* Formulář vlevo, fotka vpravo. Fotka dosedá spodní hranou na čáru patičky,
+/* Místo vpravo od formuláře je volné pro fotku. Fotka by dosedala spodní hranou na čáru patičky,
    proto spodní odsazení sekce nese formulář, ne sekce. */
 .contact-body {
   display: grid; grid-template-columns: minmax(0, 760px) minmax(0, 1fr);
   gap: 0 48px; align-items: end;
 }
 .contact-body .contact-form { padding-bottom: 104px; }
-.contact-figure { margin: 0; justify-self: center; width: 100%; max-width: 340px; }
-.contact-figure img { display: block; width: 100%; height: auto; }
 @media (max-width: 980px) {
   .contact-body { grid-template-columns: 1fr; }
-  .contact-body .contact-form { padding-bottom: 40px; }
-  .contact-figure { max-width: 280px; }
 }
 .contact h2 { max-width: 12em; }
 .contact > p { max-width: 34em; font-size: 21px; color: var(--purple-mid); }
@@ -256,7 +252,7 @@ h2.display { font-size: clamp(44px, 6vw, 80px); line-height: 0.95; }
       <p class="hero-lead">Přes den marketing a AI, večer texty a aplikace, o víkendu kopce a výlety s dětmi. Tady je všechno pohromadě – to, co pro vás umím udělat, i to, co pořád roste.</p>
     </div>
     <figure class="hero-figure">
-      <img src="img/karel.png" alt="Karel Pospíšilík" width="482" height="420">
+      <img src="img/karel-hero.png" alt="Karel Pospíšilík" width="960" height="1014">
       <div class="btns">
         <a href="#kontakt" class="btn btn-yellow">Domluvit se</a>
         <a href="#zarubne" class="btn btn-outline-yellow">Co všechno dělám</a>
@@ -406,9 +402,6 @@ h2.display { font-size: clamp(44px, 6vw, 80px); line-height: 0.95; }
       <p class="form-thanks" id="form-thanks" role="status" aria-live="polite"></p>
     </div>
   </form>
-  <figure class="contact-figure">
-    <img src="img/karel-kontakt.png" alt="" width="680" height="743" loading="lazy">
-  </figure>
   </div>
 </section>
 </main>
