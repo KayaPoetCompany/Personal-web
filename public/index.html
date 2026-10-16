@@ -97,10 +97,10 @@ h2.display { font-size: clamp(44px, 6vw, 80px); line-height: 0.95; }
   container-type: inline-size;
 }
 .hero-figure img { display: block; width: 100%; height: auto; }
-/* Tlačítka začínají na 80 % výšky fotky – leží na tričku pod knoflíky.
+/* Střed tlačítek je ve výšce druhého knoflíku na tričku (75,2 % výšky fotky).
    Výška tlačítek se odvozuje od šířky fotky (cqw). */
 .hero-figure .btns {
-  position: absolute; left: 0; right: 0; top: 80%;
+  position: absolute; left: 0; right: 0; top: 75.2%; transform: translateY(-50%);
   flex-wrap: nowrap; justify-content: center; gap: 2.2cqw; padding: 0 1.5cqw;
 }
 .hero-figure .btn {
